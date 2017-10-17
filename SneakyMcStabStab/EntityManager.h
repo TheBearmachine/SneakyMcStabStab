@@ -13,6 +13,9 @@ public:
 	void addEntity(Entity* entity);
 
 	void update(const sf::Time &deltaTime);
+
+	void addWall();
+	void detectCollisions();
 	void draw(sf::RenderTarget &window) const;
 
 	void unregisterEntities();

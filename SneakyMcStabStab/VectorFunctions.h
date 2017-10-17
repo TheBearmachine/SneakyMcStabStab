@@ -35,14 +35,15 @@ public:
 		}
 	}
 
-	static float dotProduct(const sf::Vector2f &v1, const sf::Vector2f &v2)
-	{
-		return v1.x * v2.x + v1.y * v2.y;
-	}
-
 	static float angleBetweenVectors(const sf::Vector2f &v1, const sf::Vector2f &v2)
 	{
 		float l1 = vectorMagnitude(v1), l2 = vectorMagnitude(v2);
+		//if (l1 || l2 < 0.01) return 0.0f;
 		return acosf(dotProduct(v1, v2) / (l1*l2));
+	}
+
+	static float dotProduct(const sf::Vector2f &v1, const sf::Vector2f &v2)
+	{
+		return v1.x * v2.x + v1.y * v2.y;
 	}
 };

@@ -25,6 +25,7 @@ void GameStateLevel::exit()
 void GameStateLevel::update(const sf::Time & deltaTime)
 {
 	mEntityManager.update(deltaTime);
+	mEntityManager.detectCollisions();
 }
 
 void GameStateLevel::draw(sf::RenderTarget & window) const
@@ -71,11 +72,12 @@ void GameStateLevel::setupLevel(size_t level)
 void GameStateLevel::setupLevel1()
 {
 	Entity* entity = new Entity();
-	mEntityManager.addEntity(entity);
+	entity->setEventManager(mOwner->getEventManager());
 	entity->possess();
 	entity->setPosition(50.0f, 50.0f);
+	mEntityManager.addEntity(entity);
 
 	entity = new Entity();
-	mEntityManager.addEntity(entity);
 	entity->setPosition(100.0f, 100.0f);
+	mEntityManager.addEntity(entity);
 }

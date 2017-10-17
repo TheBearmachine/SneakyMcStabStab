@@ -9,7 +9,7 @@
 EntityStatePossess::EntityStatePossess(Entity * owner) :
 	EntityState(owner)
 {
-	mRegistered = false;
+	//mRegistered = false;
 }
 
 EntityStatePossess::~EntityStatePossess()
@@ -36,14 +36,23 @@ void EntityStatePossess::unregisterEvents()
 
 void EntityStatePossess::observe(const sf::Event & _event)
 {
+	if (_event.type == sf::Event::EventType::KeyPressed)
+	{
+		if (_event.key.code == sf::Keyboard::Space)
+		{
+			mOwner->getHands()->stab();
+		}
+	}
 }
 
 void EntityStatePossess::entry()
 {
+	registerEvents();
 }
 
 void EntityStatePossess::exit()
 {
+	unregisterEvents();
 }
 
 void EntityStatePossess::update(const sf::Time & deltaTime)
@@ -72,6 +81,8 @@ void EntityStatePossess::update(const sf::Time & deltaTime)
 	}
 
 	VectorFunctions::normalizeVector(toMove);
+	if (toMove != sf::Vector2f(0.0f, 0.0f))
+		mOwner->setForward(toMove);
 	toMove *= deltaTime.asSeconds() * speed;
 	mOwner->move(toMove);
 }

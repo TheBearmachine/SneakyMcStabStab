@@ -12,6 +12,13 @@ class EventManager;
 class Entity : public sf::Drawable, public sf::Transformable
 {
 public:
+	enum CollisionTypes
+	{
+		EntityThing,
+		Weapon,
+		Wall
+	};
+
 	Entity();
 	virtual ~Entity();
 
@@ -31,6 +38,11 @@ public:
 	void setForward(const sf::Vector2f &v);
 	sf::Vector2f getForward() const;
 
+	sf::FloatRect getBroadDetection();
+	float getNarrowDetection();
+
+	sf::FloatRect getWeaponRect();
+
 	void possess();
 
 protected:
@@ -40,4 +52,5 @@ protected:
 	EntityState* mCurrentEntityState;
 	sf::CircleShape mSprite;
 	EntityHands mHands;
+	sf::RectangleShape test;
 };

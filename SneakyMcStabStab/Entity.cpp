@@ -1,19 +1,26 @@
 #include "Entity.h"
 #include "EntityState.h"
+#include "VectorFunctions.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 
-static const float RADIUS = 7.0f;
-static const float THICKNESS = 1.5f;
+static const float RADIUS = 12.0f;
+static const float THICKNESS = 2.0f;
+
+const sf::Vector2f WORLD_FORWARD(0.0f, 1.0f);
 
 Entity::Entity() :
-	mEntityStatePossess(this)
+	mEntityStatePossess(this), mForward(0.0f, 1.0f)
 {
 	mSprite.setFillColor(sf::Color::Red);
 	mSprite.setOutlineColor(sf::Color::Black);
+	mSprite.setOutlineThickness(-THICKNESS);
 	mSprite.setRadius(RADIUS);
-	mSprite.setOutlineThickness(THICKNESS);
 	float diameter = mSprite.getLocalBounds().width;
-	mSprite.setOrigin(-diameter / 2.0f, -diameter / 2.0f);
+	mSprite.setOrigin(diameter / 2.0f, diameter / 2.0f);
+
+	test.setFillColor(sf::Color::Transparent);
+	test.setOutlineColor(sf::Color::Red);
+	test.setOutlineThickness(1.0f);
 }
 
 Entity::~Entity()
@@ -26,12 +33,25 @@ void Entity::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	states.transform *= getTransform();
 	target.draw(mHands, states);
 	target.draw(mSprite, states);
+	target.draw(test);
 }
 
 void Entity::update(const sf::Time & deltaTime)
 {
 	if (mCurrentEntityState)
 		mCurrentEntityState->update(deltaTime);
+	mHands.update(deltaTime);
+	float rotation = VectorFunctions::angleBetweenVectors(mForward, WORLD_FORWARD) * 180.0f / PI;
+	if (mForward.x > 0)
+		rotation *= -1;
+	setRotation(rotation);
+
+	/*sf::FloatRect rect = getBroadDetection();
+	test.setPosition(rect.left, rect.top);
+	test.setSize(sf::Vector2f(rect.width, rect.height));*/
+	sf::FloatRect rect = getWeaponRect();
+	test.setPosition(rect.left, rect.top);
+	test.setSize(sf::Vector2f(rect.width, rect.height));
 }
 
 void Entity::setCurrentState(EntityState * state)
@@ -73,9 +93,30 @@ sf::Vector2f Entity::getForward() const
 	return mForward;
 }
 
+sf::FloatRect Entity::getBroadDetection()
+{
+	sf::Transform trans;
+	trans.translate(getPosition());
+	trans *= mSprite.getTransform();
+	//trans.translate(-mSprite.getOrigin());
+	return trans.transformRect(mSprite.getLocalBounds());
+}
+
+float Entity::getNarrowDetection()
+{
+	return RADIUS;
+}
+
+sf::FloatRect Entity::getWeaponRect()
+{
+	sf::Transform trans = getTransform();
+	return mHands.getWeaponRect(trans);
+}
+
 void Entity::possess()
 {
 	setCurrentState(&mEntityStatePossess);
+	mEntityStatePossess.entry();
 	mSprite.setFillColor(sf::Color::Green);
 	mHands.setColor(sf::Color::Green);
 }
