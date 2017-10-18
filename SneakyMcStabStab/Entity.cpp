@@ -55,9 +55,6 @@ void Entity::update(const sf::Time & deltaTime)
 		rotation *= -1;
 	setRotation(rotation);
 
-	/*sf::FloatRect rect = getBroadDetection();
-	test.setPosition(rect.left, rect.top);
-	test.setSize(sf::Vector2f(rect.width, rect.height));*/
 	sf::FloatRect rect = getWeaponRect();
 	test.setPosition(rect.left, rect.top);
 	test.setSize(sf::Vector2f(rect.width, rect.height));

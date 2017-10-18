@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Wall.h"
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <vector>
@@ -15,7 +16,7 @@ public:
 
 	void update(const sf::Time &deltaTime);
 
-	void addWall();
+	void addWall(Wall* wall);
 	void detectCollisions();
 	void draw(sf::RenderTarget &window) const;
 
@@ -25,4 +26,5 @@ public:
 
 private:
 	std::vector<Entity*> mEntities;
+	std::vector<Wall*> mWalls;
 };

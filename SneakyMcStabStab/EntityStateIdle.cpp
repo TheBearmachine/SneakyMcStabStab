@@ -50,7 +50,6 @@ void EntityStateIdle::update(const sf::Time & deltaTime)
 
 	else if (mIdleTimer <= 0.0f)
 	{
-		mOwner->cyclePatrolPoints();
 		startMoving(mOwner->getNextPatrolPoint());
 	}
 }
@@ -67,6 +66,7 @@ void EntityStateIdle::die()
 
 void EntityStateIdle::startMoving(const sf::Vector2f & position)
 {
+	mOwner->cyclePatrolPoints();
 	mOwner->getMovingState()->setTargetPosition(position);
 	transition(this, mOwner->getMovingState());
 }

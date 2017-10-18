@@ -40,6 +40,10 @@ void EntityManager::update(const sf::Time & deltaTime)
 	}
 }
 
+void EntityManager::addWall(Wall* wall)
+{
+}
+
 void EntityManager::detectCollisions()
 {
 	// Entity to entity collisions using circular checks
@@ -66,14 +70,28 @@ void EntityManager::detectCollisions()
 			if (mEntities[i]->getHands()->getAttacking() &&
 				mEntities[j]->getCurrentEntityState() != mEntities[j]->getDeadState()) // Don't bother with dead entities
 			{
-				dxSq = pos1.x - pos2.x;
-				dySq = pos1.y - pos2.y;
+				dxSq = (pos1.x - pos2.x) * (pos1.x - pos2.x);
+				dySq = (pos1.y - pos2.y) * (pos1.y - pos2.y);
 				rad = 1.5f + mEntities[j]->getRadius();
 				radSq = rad * rad;
 
 				if (dxSq + dySq < radSq)
 				{
 					mEntities[j]->getCurrentEntityState()->die();
+					printf("Stab!");
+				}
+			}
+			if (mEntities[j]->getHands()->getAttacking() &&
+				mEntities[i]->getCurrentEntityState() != mEntities[i]->getDeadState()) // Don't bother with dead entities
+			{
+				dxSq = (pos1.x - pos2.x) * (pos1.x - pos2.x);
+				dySq = (pos1.y - pos2.y) * (pos1.y - pos2.y);
+				rad = 1.5f + mEntities[i]->getRadius();
+				radSq = rad * rad;
+
+				if (dxSq + dySq < radSq)
+				{
+					mEntities[i]->getCurrentEntityState()->die();
 					printf("Stab!");
 				}
 			}

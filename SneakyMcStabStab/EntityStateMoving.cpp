@@ -27,7 +27,7 @@ void EntityStateMoving::observe(const sf::Event & _event)
 
 void EntityStateMoving::entry()
 {
-	mOwner->setForward(mOwner->getPosition() - mTargetPosition);
+	mOwner->setForward(mTargetPosition - mOwner->getPosition());
 }
 
 void EntityStateMoving::exit()
@@ -39,7 +39,7 @@ void EntityStateMoving::update(const sf::Time & deltaTime)
 	bool goalReached;
 	sf::Vector2f newPos = VectorFunctions::lerp(mOwner->getPosition(), mTargetPosition, deltaTime.asSeconds() * Constants::NPCs::MoveSpeed, goalReached);
 	mOwner->setPosition(newPos);
-	if (mOwner->getEyes()->detectTarget(newPos))
+	if (mOwner->getEyes()->detectTarget(mTargetPosition - mOwner->getPosition()))
 	{
 		startChasing();
 	}
