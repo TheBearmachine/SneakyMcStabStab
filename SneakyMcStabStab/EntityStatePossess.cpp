@@ -48,11 +48,13 @@ void EntityStatePossess::observe(const sf::Event & _event)
 void EntityStatePossess::entry()
 {
 	registerEvents();
+	mOwner->getEyes()->setDrawSight(false);
 }
 
 void EntityStatePossess::exit()
 {
 	unregisterEvents();
+	mOwner->getEyes()->setDrawSight(true);
 }
 
 void EntityStatePossess::update(const sf::Time & deltaTime)
@@ -90,4 +92,9 @@ void EntityStatePossess::update(const sf::Time & deltaTime)
 void EntityStatePossess::setEventManager(EventManager * eventManager)
 {
 	mEventManager = eventManager;
+}
+
+void EntityStatePossess::die()
+{
+	transition(this, mOwner->getDeadState());
 }

@@ -21,6 +21,7 @@ public:
 
 	bool getAttacking() const;
 	sf::FloatRect getWeaponRect(sf::Transform transform);
+	sf::Vector2f getWeaponTip(sf::Transform transform);
 
 private:
 	enum HandAction
@@ -32,6 +33,7 @@ private:
 	sf::CircleShape mHand[2];
 	sf::RectangleShape mWeapon;
 
+	sf::Vector2f mWeaponTip;
 	sf::Vector2f mDefaultHandPosition;
 	bool mBusy;
 	HandAction mCurrentAction;

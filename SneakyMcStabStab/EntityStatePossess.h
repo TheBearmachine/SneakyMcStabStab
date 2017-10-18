@@ -21,7 +21,7 @@ public:
 	void setEventManager(EventManager* eventManager);
 
 	// Transition functions
-
+	virtual void die() override;
 
 private:
 	EventManager* mEventManager;

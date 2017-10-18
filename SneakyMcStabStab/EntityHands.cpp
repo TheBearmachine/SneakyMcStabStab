@@ -20,6 +20,7 @@ EntityHands::EntityHands() :
 		mHand[i].setPosition(i * RADIUS * HAND_DISTANCE - RADIUS * HAND_DISTANCE * 0.5f, RADIUS * HAND_DISTANCE * 0.5f);
 	}
 	mWeapon.setSize(sf::Vector2f(1.8f, 7.0f));
+	mWeaponTip = sf::Vector2f(0.9f, 6.5f);
 	mWeapon.setFillColor(sf::Color(125, 125, 125));
 	float diameter = mHand[1].getLocalBounds().width;
 	float width = mWeapon.getLocalBounds().width;
@@ -103,4 +104,12 @@ sf::FloatRect EntityHands::getWeaponRect(sf::Transform transform)
 	transform *= mHand[1].getTransform();
 	transform *= mWeapon.getTransform();
 	return transform.transformRect(mWeapon.getLocalBounds());
+}
+
+sf::Vector2f EntityHands::getWeaponTip(sf::Transform transform)
+{
+	transform *= getTransform();
+	transform *= mHand[1].getTransform();
+	transform *= mWeapon.getTransform();
+	return transform.transformPoint(mWeaponTip);
 }

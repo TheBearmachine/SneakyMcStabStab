@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/System/Time.hpp>
 #include "EventObserver.h"
+#include <SFML/System/Vector2.hpp>
 
 class EventManager;
 class Entity;
@@ -27,7 +28,9 @@ public:
 	virtual void update(const sf::Time &deltaTime) = 0;
 
 	// Transition functions
-
+	virtual void die() {}
+	virtual void startIdle(float idleTime) {}
+	virtual void startMoving(const sf::Vector2f &position) {}
 
 protected:
 	Entity* mOwner;

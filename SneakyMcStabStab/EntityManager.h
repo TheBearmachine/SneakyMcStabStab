@@ -11,6 +11,7 @@ public:
 	~EntityManager();
 
 	void addEntity(Entity* entity);
+	void setSearchTargets();
 
 	void update(const sf::Time &deltaTime);
 

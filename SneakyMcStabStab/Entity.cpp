@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "EntityState.h"
+#include "EntityManager.h"
 #include "VectorFunctions.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 
@@ -9,7 +10,13 @@ static const float THICKNESS = 2.0f;
 const sf::Vector2f WORLD_FORWARD(0.0f, 1.0f);
 
 Entity::Entity() :
-	mEntityStatePossess(this), mForward(0.0f, 1.0f)
+	mEntityStatePossess(this),
+	mEntityStateDead(this),
+	mEntityStateIdle(this),
+	mEntityStateMoving(this),
+	mEyes(this),
+	mCurrentEntityState(&mEntityStateIdle),
+	mForward(0.0f, 1.0f)
 {
 	mSprite.setFillColor(sf::Color::Red);
 	mSprite.setOutlineColor(sf::Color::Black);
@@ -31,9 +38,10 @@ Entity::~Entity()
 void Entity::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
+	target.draw(mEyes, states);
 	target.draw(mHands, states);
 	target.draw(mSprite, states);
-	target.draw(test);
+	//target.draw(test);
 }
 
 void Entity::update(const sf::Time & deltaTime)
@@ -74,6 +82,11 @@ EntityHands * Entity::getHands()
 	return &mHands;
 }
 
+EntityEyes * Entity::getEyes()
+{
+	return &mEyes;
+}
+
 float Entity::getRadius() const
 {
 	return mSprite.getRadius() + mSprite.getOutlineThickness();
@@ -111,6 +124,54 @@ sf::FloatRect Entity::getWeaponRect()
 {
 	sf::Transform trans = getTransform();
 	return mHands.getWeaponRect(trans);
+}
+
+sf::Vector2f Entity::getWeaponTip()
+{
+	sf::Transform trans = getTransform();
+	return mHands.getWeaponTip(trans);
+}
+
+void Entity::populatePatrolQueue(const sf::Vector2f & point)
+{
+	mPatrolPoints.push(point);
+}
+
+sf::Vector2f Entity::getNextPatrolPoint() const
+{
+	sf::Vector2f returnVec(0.0f, 0.0f);
+	if (!mPatrolPoints.empty())
+		returnVec = mPatrolPoints.front();
+	return returnVec;
+}
+
+void Entity::cyclePatrolPoints()
+{
+	if (mPatrolPoints.empty()) return;
+
+	sf::Vector2f temp = mPatrolPoints.front();
+	mPatrolPoints.pop();
+	mPatrolPoints.push(temp);
+}
+
+EntityStateIdle * Entity::getIdleState()
+{
+	return &mEntityStateIdle;
+}
+
+EntityStateMoving * Entity::getMovingState()
+{
+	return &mEntityStateMoving;
+}
+
+EntityStateDead * Entity::getDeadState()
+{
+	return &mEntityStateDead;
+}
+
+EntityStatePossess * Entity::getPossessedState()
+{
+	return &mEntityStatePossess;
 }
 
 void Entity::possess()

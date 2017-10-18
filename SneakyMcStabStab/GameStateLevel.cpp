@@ -79,5 +79,8 @@ void GameStateLevel::setupLevel1()
 
 	entity = new Entity();
 	entity->setPosition(100.0f, 100.0f);
+	entity->populatePatrolQueue(sf::Vector2f(200.0f, 100.0f));
 	mEntityManager.addEntity(entity);
+
+	mEntityManager.setSearchTargets();
 }

@@ -15,6 +15,23 @@ void EntityManager::addEntity(Entity * entity)
 	mEntities.push_back(entity);
 }
 
+void EntityManager::setSearchTargets()
+{
+	Entity* target = nullptr;
+	for (size_t i = 0; i < mEntities.size(); i++)
+	{
+		if (mEntities[i]->getCurrentEntityState() == mEntities[i]->getPossessedState())
+		{
+			target = mEntities[i];
+			break;
+		}
+	}
+	for (size_t i = 0; i < mEntities.size(); i++)
+	{
+		mEntities[i]->getEyes()->setSearchTarget(target);
+	}
+}
+
 void EntityManager::update(const sf::Time & deltaTime)
 {
 	for (auto e : mEntities)
@@ -43,6 +60,22 @@ void EntityManager::detectCollisions()
 				float penDist = rad - VectorFunctions::vectorMagnitude(pos1 - pos2);
 				mEntities[i]->move(dir * penDist / 1.9f);
 				mEntities[j]->move(-dir * penDist / 1.9f);
+			}
+			pos1 = mEntities[i]->getWeaponTip();
+			// Weapon to entity collision
+			if (mEntities[i]->getHands()->getAttacking() &&
+				mEntities[j]->getCurrentEntityState() != mEntities[j]->getDeadState()) // Don't bother with dead entities
+			{
+				dxSq = pos1.x - pos2.x;
+				dySq = pos1.y - pos2.y;
+				rad = 1.5f + mEntities[j]->getRadius();
+				radSq = rad * rad;
+
+				if (dxSq + dySq < radSq)
+				{
+					mEntities[j]->getCurrentEntityState()->die();
+					printf("Stab!");
+				}
 			}
 		}
 	}

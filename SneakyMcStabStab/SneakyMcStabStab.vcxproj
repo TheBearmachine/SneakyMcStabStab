@@ -122,9 +122,13 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Clickable.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityEyes.cpp" />
     <ClCompile Include="EntityHands.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="EntityState.cpp" />
+    <ClCompile Include="EntityStateDead.cpp" />
+    <ClCompile Include="EntityStateIdle.cpp" />
+    <ClCompile Include="EntityStateMoving.cpp" />
     <ClCompile Include="EntityStatePossess.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -141,9 +145,13 @@
     <ClInclude Include="Clickable.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityEyes.h" />
     <ClInclude Include="EntityHands.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="EntityState.h" />
+    <ClInclude Include="EntityStateDead.h" />
+    <ClInclude Include="EntityStateIdle.h" />
+    <ClInclude Include="EntityStateMoving.h" />
     <ClInclude Include="EntityStatePossess.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="EventObserver.h" />
