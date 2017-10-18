@@ -3,11 +3,11 @@
 
 class Entity;
 
-class EntityStateIdle : public EntityState
+class EntityStateChase : public EntityState
 {
 public:
-	EntityStateIdle(Entity* owner);
-	virtual ~EntityStateIdle();
+	EntityStateChase(Entity* owner);
+	virtual ~EntityStateChase();
 
 	//Event Observer
 	virtual void registerEvents() override;
@@ -19,15 +19,11 @@ public:
 	virtual void exit() override;
 	virtual void update(const sf::Time &deltaTime) override;
 
-	void setIdleTimer(float idleTimer);
-
 	// Transition functions
 	virtual void die() override;
 	virtual void startMoving(const sf::Vector2f &position) override;
-	virtual void startChasing() override;
+
 
 private:
-	sf::Vector2f mInitForward;
-	float mIdleTimer;
-	float mIdleTimerMax;
+	float mTimer;
 };

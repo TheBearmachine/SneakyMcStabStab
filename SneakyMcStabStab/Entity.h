@@ -7,6 +7,7 @@
 #include "EntityStateIdle.h"
 #include "EntityStateMoving.h"
 #include "EntityStatePossess.h"
+#include "EntityStateChase.h"
 #include "EntityStateDead.h"
 #include "EntityHands.h"
 #include "EntityEyes.h"
@@ -53,6 +54,7 @@ public:
 	EntityStateMoving* getMovingState();
 	EntityStateDead* getDeadState();
 	EntityStatePossess* getPossessedState();
+	EntityStateChase* geChaseState();
 
 	void possess();
 
@@ -61,6 +63,7 @@ protected:
 	EntityStateIdle mEntityStateIdle;
 	EntityStateMoving mEntityStateMoving;
 	EntityStateDead mEntityStateDead;
+	EntityStateChase mEntityStateChase;
 	EntityState* mCurrentEntityState;
 
 	std::queue<sf::Vector2f> mPatrolPoints;

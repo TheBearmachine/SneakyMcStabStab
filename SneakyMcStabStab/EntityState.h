@@ -31,6 +31,7 @@ public:
 	virtual void die() {}
 	virtual void startIdle(float idleTime) {}
 	virtual void startMoving(const sf::Vector2f &position) {}
+	virtual void startChasing() {}
 
 protected:
 	Entity* mOwner;

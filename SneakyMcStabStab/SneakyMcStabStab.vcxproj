@@ -126,6 +126,7 @@
     <ClCompile Include="EntityHands.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="EntityState.cpp" />
+    <ClCompile Include="EntityStateChase.cpp" />
     <ClCompile Include="EntityStateDead.cpp" />
     <ClCompile Include="EntityStateIdle.cpp" />
     <ClCompile Include="EntityStateMoving.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="EntityHands.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="EntityState.h" />
+    <ClInclude Include="EntityStateChase.h" />
     <ClInclude Include="EntityStateDead.h" />
     <ClInclude Include="EntityStateIdle.h" />
     <ClInclude Include="EntityStateMoving.h" />

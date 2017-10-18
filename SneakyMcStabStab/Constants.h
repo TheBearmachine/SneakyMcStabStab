@@ -11,7 +11,7 @@ namespace Constants
 {
 	namespace World
 	{
-		
+
 	}
 
 	namespace Player
@@ -32,7 +32,10 @@ namespace Constants
 
 	namespace NPCs
 	{
-
+		const_float ChaseSpeed = 30.0f;
+		const_float MoveSpeed = 15.0f;
+		const_float AttackDistance = 50.0f;
+		const_float IdleTime = 8.0f;
 	}
 
 	namespace Filepaths

@@ -30,17 +30,20 @@ void EntityEyes::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	if (mDrawSight)
 	{
-		states.transform *= getTransform();
-		target.draw(mSightIndicator, states);
+		sf::Transform trans;
+		trans.translate(mOwner->getPosition());
+		target.draw(mSightIndicator, trans);
 	}
 }
 
 bool EntityEyes::detectTarget(const sf::Vector2f &forward)
 {
 	bool targetSeen = false;
-	if (VectorFunctions::vectorMagnitude(forward) <= 0.01) return targetSeen;
+	sf::Vector2f newVec = forward;
+	VectorFunctions::normalizeVector(newVec);
+	if (VectorFunctions::vectorMagnitude(newVec) <= 0.01) return targetSeen;
 
-	sf::Vector2f forwardPos = forward * SIGHT_DISTANCE;
+	sf::Vector2f forwardPos = newVec * SIGHT_DISTANCE;
 	VectorRotation rot1(VectorRotation::inDegrees(FIELD_OF_VIEW / 2.0f));
 	VectorRotation rot2(VectorRotation::inDegrees(-FIELD_OF_VIEW / (float)(mSightIndicator.getVertexCount() - 2)));
 	forwardPos = (VectorRotation(forwardPos) * rot1).toVector();
@@ -57,7 +60,7 @@ bool EntityEyes::detectTarget(const sf::Vector2f &forward)
 		sf::Vector2f tarDir = mSearchTarget->getPosition() - mOwner->getPosition();
 		if (VectorFunctions::vectorMagnitude(tarDir) < SIGHT_DISTANCE)
 		{
-			float angle = VectorFunctions::angleBetweenVectors(tarDir, forward);
+			float angle = VectorFunctions::angleBetweenVectors(tarDir, newVec);
 			angle = angle * 180 / PI;
 			if (angle < HALF_FOV)
 			{

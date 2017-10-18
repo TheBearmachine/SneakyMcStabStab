@@ -14,6 +14,7 @@ Entity::Entity() :
 	mEntityStateDead(this),
 	mEntityStateIdle(this),
 	mEntityStateMoving(this),
+	mEntityStateChase(this),
 	mEyes(this),
 	mCurrentEntityState(&mEntityStateIdle),
 	mForward(0.0f, 1.0f)
@@ -99,6 +100,7 @@ void Entity::onCollision(const sf::Vector2f & penetration)
 void Entity::setForward(const sf::Vector2f & v)
 {
 	mForward = v;
+	VectorFunctions::normalizeVector(mForward);
 }
 
 sf::Vector2f Entity::getForward() const
@@ -172,6 +174,11 @@ EntityStateDead * Entity::getDeadState()
 EntityStatePossess * Entity::getPossessedState()
 {
 	return &mEntityStatePossess;
+}
+
+EntityStateChase * Entity::geChaseState()
+{
+	return &mEntityStateChase;
 }
 
 void Entity::possess()
