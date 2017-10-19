@@ -20,6 +20,8 @@ public:
 	void detectCollisions();
 	void draw(sf::RenderTarget &window) const;
 
+	bool rayCast(const sf::Vector2f &start, const sf::Vector2f &target, float stepSize = 1.0f);
+
 	void unregisterEntities();
 	void registerEntities();
 	void clearEntities();

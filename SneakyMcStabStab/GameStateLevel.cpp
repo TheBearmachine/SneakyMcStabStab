@@ -83,5 +83,16 @@ void GameStateLevel::setupLevel1()
 	entity->populatePatrolQueue(sf::Vector2f(100.0f, 100.0f));
 	mEntityManager.addEntity(entity);
 
+	Wall* wall = new Wall(sf::Vector2f(300, 100), sf::Vector2f(300, 50));
+	mEntityManager.addWall(wall);
+	wall = new  Wall(sf::Vector2f(0, 0), sf::Vector2f(640, 20));
+	mEntityManager.addWall(wall);
+	wall = new  Wall(sf::Vector2f(0, 0), sf::Vector2f(20, 480));
+	mEntityManager.addWall(wall);
+	wall = new  Wall(sf::Vector2f(0, 460), sf::Vector2f(640, 20));
+	mEntityManager.addWall(wall);
+	wall = new  Wall(sf::Vector2f(620, 0), sf::Vector2f(20, 480));
+	mEntityManager.addWall(wall);
+
 	mEntityManager.setSearchTargets();
 }

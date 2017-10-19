@@ -13,6 +13,7 @@ EntityManager::~EntityManager()
 void EntityManager::addEntity(Entity * entity)
 {
 	mEntities.push_back(entity);
+	entity->getEyes()->setEntityManager(this);
 }
 
 void EntityManager::setSearchTargets()
@@ -42,6 +43,7 @@ void EntityManager::update(const sf::Time & deltaTime)
 
 void EntityManager::addWall(Wall* wall)
 {
+	mWalls.push_back(wall);
 }
 
 void EntityManager::detectCollisions()
@@ -96,6 +98,12 @@ void EntityManager::detectCollisions()
 				}
 			}
 		}
+
+		// Wall collisions
+		for (size_t j = 0; j < mWalls.size(); j++)
+		{
+
+		}
 	}
 }
 
@@ -105,6 +113,27 @@ void EntityManager::draw(sf::RenderTarget & window) const
 	{
 		window.draw(*e);
 	}
+
+	for (auto w : mWalls)
+	{
+		window.draw(*w);
+	}
+}
+
+bool EntityManager::rayCast(const sf::Vector2f & start, const sf::Vector2f & target, float stepSize)
+{
+	sf::Vector2f current = start;
+	bool done = false;
+	while (!done)
+	{
+		current = VectorFunctions::lerp(current, target, stepSize, done);
+		for (auto w : mWalls)
+		{
+			if (w->getBounds().contains(current))
+				return true;
+		}
+	}
+	return false;
 }
 
 void EntityManager::unregisterEntities()

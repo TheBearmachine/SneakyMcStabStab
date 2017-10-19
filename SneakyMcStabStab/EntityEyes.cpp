@@ -1,5 +1,6 @@
 #include "EntityEyes.h"
 #include "Entity.h"
+#include "EntityManager.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include "VectorFunctions.h"
 
@@ -55,7 +56,7 @@ bool EntityEyes::detectTarget(const sf::Vector2f &forward)
 	}
 
 	if (mSearchTarget &&
-		mSearchTarget->getCurrentEntityState() != mSearchTarget->getDeadState()) // Don't bother detecting a dead player
+		mSearchTarget->getCurrentEntityState() != mSearchTarget->getDeadState()) // Don't bother detecting a dead entity
 	{
 		sf::Vector2f tarDir = mSearchTarget->getPosition() - mOwner->getPosition();
 		if (VectorFunctions::vectorMagnitude(tarDir) < SIGHT_DISTANCE)
@@ -64,9 +65,12 @@ bool EntityEyes::detectTarget(const sf::Vector2f &forward)
 			angle = angle * 180 / PI;
 			if (angle < HALF_FOV)
 			{
-				// Player found, get him (Or her, #feminism)!
-				targetSeen = true;
-				mLastKnownPlayerPosition = mSearchTarget->getPosition();
+				// Player found, see if there is a clear line
+				if (!mEntityManager->rayCast(mOwner->getPosition(), mSearchTarget->getPosition()))
+				{
+					targetSeen = true;
+					mLastKnownPlayerPosition = mSearchTarget->getPosition();
+				}
 			}
 		}
 	}
@@ -82,6 +86,11 @@ void EntityEyes::setSearchTarget(Entity * target)
 void EntityEyes::setDrawSight(const bool & drawSight)
 {
 	mDrawSight = drawSight;
+}
+
+void EntityEyes::setEntityManager(EntityManager * entityManager)
+{
+	mEntityManager = entityManager;
 }
 
 sf::Vector2f EntityEyes::getLastKnownPlayerPosition() const

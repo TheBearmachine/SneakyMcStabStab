@@ -4,6 +4,7 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 class Entity;
+class EntityManager;
 
 class EntityEyes : public sf::Drawable, public sf::Transformable
 {
@@ -17,11 +18,14 @@ public:
 
 	void setDrawSight(const bool &drawSight);
 
+	void setEntityManager(EntityManager* entityManager);
+
 	sf::Vector2f getLastKnownPlayerPosition() const;
 
 private:
 	Entity* mOwner;
 	Entity* mSearchTarget;
+	EntityManager* mEntityManager;
 	sf::VertexArray mSightIndicator;
 	sf::Vector2f mLastKnownPlayerPosition;
 	bool mDrawSight;
