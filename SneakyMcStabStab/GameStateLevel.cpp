@@ -1,6 +1,7 @@
 #include "GameStateLevel.h"
 #include <SFML/Window/Event.hpp>
 #include "Game.h"
+#include "EventManager.h"
 
 GameStateLevel::GameStateLevel(Game * owner) :
 	GameState(owner), mCurrentLevel(0)
@@ -14,7 +15,6 @@ GameStateLevel::~GameStateLevel()
 void GameStateLevel::entry()
 {
 	registerEvents();
-
 }
 
 void GameStateLevel::exit()
@@ -35,16 +35,29 @@ void GameStateLevel::draw(sf::RenderTarget & window) const
 
 void GameStateLevel::registerEvents()
 {
+	if (mEventManager)
+	{
+		mEventManager->registerObserver(this, sf::Event::EventType::Closed);
+	}
 }
 
 void GameStateLevel::unregisterEvents()
 {
+	if (mEventManager)
+	{
+		mEventManager->unregisterObserver(this, sf::Event::EventType::Closed);
+	}
 }
 
 void GameStateLevel::observe(const sf::Event & _event)
 {
 	if (_event.type == sf::Event::EventType::Closed)
 		mOwner->getRenderWindow()->close();
+}
+
+void GameStateLevel::setEventManager(EventManager * eventManager)
+{
+	mEventManager = eventManager;
 }
 
 void GameStateLevel::enterLevel(size_t level)
@@ -83,14 +96,35 @@ void GameStateLevel::setupLevel1()
 	entity->populatePatrolQueue(sf::Vector2f(100.0f, 100.0f));
 	mEntityManager.addEntity(entity);
 
-	Wall* wall = new Wall(sf::Vector2f(300, 100), sf::Vector2f(300, 50));
+	entity = new Entity();
+	entity->setPosition(50.0f, 350.0f);
+	entity->populatePatrolQueue(sf::Vector2f(250.0f, 350.0f));
+	entity->populatePatrolQueue(sf::Vector2f(250.0f, 250.0f));
+	entity->populatePatrolQueue(sf::Vector2f(50.0f, 250.0f));
+	entity->populatePatrolQueue(sf::Vector2f(50.0f, 350.0f));
+	mEntityManager.addEntity(entity);
+
+	Wall* wall = new Wall(sf::Vector2f(250, 20), sf::Vector2f(20, 100));
 	mEntityManager.addWall(wall);
+
+	wall = new Wall(sf::Vector2f(350, 20), sf::Vector2f(20, 100));
+	mEntityManager.addWall(wall);
+
+	wall = new Wall(sf::Vector2f(20, 180), sf::Vector2f(200, 20));
+	mEntityManager.addWall(wall);
+
+	wall = new Wall(sf::Vector2f(280, 180), sf::Vector2f(340, 20));
+	mEntityManager.addWall(wall);
+
 	wall = new  Wall(sf::Vector2f(0, 0), sf::Vector2f(640, 20));
 	mEntityManager.addWall(wall);
+
 	wall = new  Wall(sf::Vector2f(0, 0), sf::Vector2f(20, 480));
 	mEntityManager.addWall(wall);
+
 	wall = new  Wall(sf::Vector2f(0, 460), sf::Vector2f(640, 20));
 	mEntityManager.addWall(wall);
+
 	wall = new  Wall(sf::Vector2f(620, 0), sf::Vector2f(20, 480));
 	mEntityManager.addWall(wall);
 

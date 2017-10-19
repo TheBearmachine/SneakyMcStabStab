@@ -48,6 +48,7 @@ public:
 
 	void populatePatrolQueue(const sf::Vector2f &point);
 	sf::Vector2f getNextPatrolPoint() const;
+	sf::Vector2f getPreviousPatrolPoint() const;
 	void cyclePatrolPoints();
 
 	EntityStateIdle* getIdleState();

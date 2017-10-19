@@ -102,7 +102,40 @@ void EntityManager::detectCollisions()
 		// Wall collisions
 		for (size_t j = 0; j < mWalls.size(); j++)
 		{
+			sf::FloatRect rect1 = mEntities[i]->getBroadDetection();
+			sf::FloatRect rect2 = mWalls[j]->getBounds();
+			if (rect1.intersects(rect2))
+			{
+				const float distTop = abs(rect1.top - (rect2.top + rect2.height));
+				const float distBot = abs(rect2.top - (rect1.top + rect1.height));
+				const float distLeft = abs(rect1.left - (rect2.left + rect2.width));
+				const float distRight = abs(rect2.left - (rect1.left + rect1.width));
 
+				float min = distTop;
+				if (min > distBot)
+					min = distBot;
+				if (min > distLeft)
+					min = distLeft;
+				if (min > distRight)
+					min = distRight;
+
+				if (min == distTop)
+				{
+					mEntities[i]->move(0.0f, distTop);
+				}
+				else if (min == distBot)
+				{
+					mEntities[i]->move(0.0f, -distBot);
+				}
+				else if (min == distLeft)
+				{
+					mEntities[i]->move(distLeft, 0.0f);
+				}
+				else if (min == distRight)
+				{
+					mEntities[i]->move(-distRight, 0.0f);
+				}
+			}
 		}
 	}
 }

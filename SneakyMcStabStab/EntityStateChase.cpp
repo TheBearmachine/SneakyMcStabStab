@@ -55,7 +55,7 @@ void EntityStateChase::update(const sf::Time & deltaTime)
 
 	if (mTimer <= 0.0f)
 	{
-		startMoving(mOwner->getNextPatrolPoint());
+		startMoving(mOwner->getPreviousPatrolPoint());
 	}
 }
 

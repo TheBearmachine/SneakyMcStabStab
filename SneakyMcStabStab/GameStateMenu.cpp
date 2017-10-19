@@ -98,7 +98,7 @@ void GameStateMenu::unregisterEvents()
 
 void GameStateMenu::observe(const sf::Event & _event)
 {
-	if(_event.type == sf::Event::EventType::Closed)
+	if (_event.type == sf::Event::EventType::Closed)
 		mOwner->getRenderWindow()->close();
 }
 

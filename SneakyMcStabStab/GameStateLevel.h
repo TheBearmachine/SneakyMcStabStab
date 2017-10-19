@@ -2,6 +2,8 @@
 #include "GameState.h"
 #include "EntityManager.h"
 
+class EventManager;
+
 class GameStateLevel : public GameState
 {
 public:
@@ -18,6 +20,8 @@ public:
 	virtual void unregisterEvents();
 	virtual void observe(const sf::Event& _event);
 
+	void setEventManager(EventManager* eventManager);
+
 	// Transition functions
 	virtual void enterLevel(size_t level);
 
@@ -26,5 +30,6 @@ private:
 	void setupLevel1();
 
 	EntityManager mEntityManager;
+	EventManager* mEventManager;
 	size_t mCurrentLevel;
 };

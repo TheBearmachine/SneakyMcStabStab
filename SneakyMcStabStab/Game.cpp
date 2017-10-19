@@ -14,6 +14,8 @@ Game::Game() :
 	sf::ContextSettings cs;
 	cs.antialiasingLevel = 8U;
 	mWindow.create(vm, APP_TITLE, 7U, cs);
+
+	mGameStateLevel.setEventManager(&mEventManager);
 }
 
 Game::~Game()

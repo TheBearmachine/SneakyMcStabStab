@@ -55,7 +55,7 @@ void Entity::update(const sf::Time & deltaTime)
 		rotation *= -1;
 	setRotation(rotation);
 
-	sf::FloatRect rect = getWeaponRect();
+	sf::FloatRect rect = getBroadDetection();
 	test.setPosition(rect.left, rect.top);
 	test.setSize(sf::Vector2f(rect.width, rect.height));
 }
@@ -141,6 +141,14 @@ sf::Vector2f Entity::getNextPatrolPoint() const
 	sf::Vector2f returnVec(0.0f, 0.0f);
 	if (!mPatrolPoints.empty())
 		returnVec = mPatrolPoints.front();
+	return returnVec;
+}
+
+sf::Vector2f Entity::getPreviousPatrolPoint() const
+{
+	sf::Vector2f returnVec(0.0f, 0.0f);
+	if (!mPatrolPoints.empty())
+		returnVec = mPatrolPoints.back();
 	return returnVec;
 }
 
